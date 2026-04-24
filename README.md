@@ -110,6 +110,10 @@ These aggregated collections are stored back into MongoDB.
 ## Test
 ![Test](images/test.png)
 
+## Website Preview
+![monthly_spending](images/monthly_spending.png)
+
+![spending_spending](images/spending_segmenet.png)
 Examples to include:
 
 MongoDB collection counts
