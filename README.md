@@ -37,7 +37,7 @@ This dataset is large and complex enough to require proper data cleaning, valida
 ## Architecture
 Pipeline flow:
 
-``` bash
+```
 CSV Dataset
 ↓
 Raw MongoDB Collection
@@ -55,23 +55,35 @@ The system uses Docker to run MongoDB locally and Python to handle ingestion, pr
 
 ## Setup Instructions
 
-### Clone Repository
-
-git clone https://github.com/motacl35/customer-spending-mongodb-pipeline
-
+### 1. Clone Repository
 ``` bash
-1. cd customer-spending-mongodb-pipeline
-2. Install Dependencies
-    - uv venv
-    - source .venv/bin/activate
-    - uv add pandas pymongo pydantic python-dotenv
-    streamlit matplotlib pytest mypy
-3. Start MongoDB
-    - docker compose up -d
-    - Pipeline Stages
+git clone https://github.com/motacl35/customer-spending-mongodb-pipeline
+cd customer-spending-mongodb-pipeline
+```
+
+### 2. Install Dependencies
+``` bash
+uv venv
+source .venv/bin/activate
+uv add pandas pymongo pydantic python-dotenv
+streamlit matplotlib pytest mypy
+```
+### 3. Start MongoDB
+``` bash
+docker compose up -d
+```
+### 4. Run the Pipiline 
+``` bash
+uv run python -m app.main
+```
+### 5. View the Dashboard
+``` bash
+streamlit run app/dashboard/dashboard.py
+```
+### Pipeline Stages
 1. Raw Layer
-    - Loads 1,000,000 records into MongoDB
-    - Stores original dataset without modification
+- Loads 1,000,000 records into MongoDB
+- Stores original dataset without modification
 2. Clean Layer
 - Removes duplicates
 - Normalizes text values
@@ -80,20 +92,15 @@ git clone https://github.com/motacl35/customer-spending-mongodb-pipeline
     - year
     - month
     - spending_level
-    - Validates records using Pydantic
-    - Stores invalid records in a rejected_records collection
+- Validates records using Pydantic
+- Stores invalid records in a rejected_records collection
 3. Aggregated Layer
-
-Creates summary datasets:
-
-- Monthly spending trends
-- Spending by customer segment
-- Top states by total spending
+- Creates summary datasets:
+    - Monthly spending trends
+    - Spending by customer segment
+    - Top states by total spending
 
 These aggregated collections are stored back into MongoDB.
-
-```
-
 
 # Screenshots
 
