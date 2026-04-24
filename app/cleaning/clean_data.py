@@ -1,4 +1,5 @@
 from datetime import datetime
+import math
 from app.db.mongo import db
 from app.config.settings import settings
 from app.models.spending_model import SpendingRecord
@@ -10,6 +11,15 @@ def spending_level(amount):
     elif amount >= 250:
         return "Medium"
     return "Low"
+
+
+def clean_amount(value):
+    amount = float(str(value).replace("$", "").replace(",", "").strip())
+
+    if math.isnan(amount):
+        raise ValueError("Amount is NaN")
+
+    return amount
 
 
 def clean_data():
@@ -33,6 +43,7 @@ def clean_data():
             seen_ids.add(transaction_id)
 
             date = datetime.fromisoformat(str(doc["Transaction_date"]))
+            amount_value = clean_amount(doc["Amount_spent"])
 
             new_doc = {
                 "transaction_id": transaction_id,
@@ -45,10 +56,10 @@ def clean_data():
                 "employment_status": str(doc["Employees_status"]).strip().title(),
                 "payment_method": str(doc["Payment_method"]).strip().title(),
                 "referral": int(doc["Referral"]),
-                "amount_spent": float(doc["Amount_spent"]),
+                "amount_spent": amount_value,
                 "year": date.year,
                 "month": date.month,
-                "spending_level": spending_level(float(doc["Amount_spent"])),
+                "spending_level": spending_level(amount_value),
             }
 
             validated = SpendingRecord(**new_doc)
