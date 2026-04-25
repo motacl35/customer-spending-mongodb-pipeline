@@ -119,8 +119,7 @@ Sharding was not implemented because the dataset size can be efficiently handled
 ## Reliability and Validation
 
 Data validation is handled using Pydantic models
-Invalid records are separated into a rejected_records collection
-This prevents bad data from affecting analytics
+Invalid records are separated into a rejected_records collection. This prevents bad data from affecting analytics
 
 This ensures data integrity and reflects real-world pipeline reliability practices.
 
@@ -145,6 +144,7 @@ Mypy is used to enforce type safety and improve code reliability.
 The dashboard presents insights using aggregated data:
 
 Monthly Spending Trend
+
 → Shows how customer spending changes over time
 
 Spending by Customer Segment
